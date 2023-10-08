@@ -239,10 +239,11 @@ def checkMatrix(matrix,turn):
                 else:
                     winner = 2
 
-    for i in range(0,len(matrix)):
-        for j in range(0,len(matrix[i])):
-            if matrix[i][j] == 0:
-                hasBlank = True
+    if winner == 0:
+        for i in range(0,len(matrix)):
+            for j in range(0,len(matrix[i])):
+                if matrix[i][j] == 0:
+                    hasBlank = True
 
     if hasBlank == False:
         winner = 3

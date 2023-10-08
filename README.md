@@ -101,7 +101,6 @@ while True:
 
 **Functions python file**
 ```python
-
 # Libraries and modules used
 import os
 import time
@@ -220,25 +219,32 @@ def checkMatrix(matrix,turn):
         if matrix[i][0] == matrix[i][1] == matrix[i][2] != 0:
             if turn == 0:
                 winner = 1
+                return winner
             else:
                 winner = 2
+                return winner
         if matrix[0][i] == matrix[1][i] == matrix[2][i] != 0:
             if turn == 0:
                 winner = 1
+                return winner
             else:
                 winner = 2
+                return winner
         if i == 0:
             if matrix[i+2][0] == matrix[i+1][1] == matrix[i][2] != 0:
                 if turn == 0:
                     winner = 1
+                    return winner
                 else:
                     winner = 2
+                    return winner
             if matrix[i][i] == matrix[i+1][i+1] == matrix[i+2][i+2] != 0:
                 if turn == 0:
                     winner = 1
+                    return winner
                 else:
                     winner = 2
-
+                    return winner
     if winner == 0:
         for i in range(0,len(matrix)):
             for j in range(0,len(matrix[i])):
@@ -247,8 +253,7 @@ def checkMatrix(matrix,turn):
 
     if hasBlank == False:
         winner = 3
-
-    return winner
+        return winner
 
 
 # UI that will pop out when a Draw happened

@@ -51,19 +51,21 @@ def winUI(matrix):
     print(Fore.YELLOW+"     1   2   3 ")
     print(Fore.YELLOW+"   ____________")
     print(Fore.YELLOW+"  |")
-    row1,row2,row3,col1,col2,col3 = wincheckMatrix(matrix)
+    winning_line = get_winning_line(matrix) # Get the winning line coordinates
+
     for i in range(len(matrix)):
         print(Fore.YELLOW+f"{i+1} |", end=" ")
         for j in range(len(matrix[i])):
+            is_winning_cell = winning_line and (i, j) in winning_line
             if matrix[i][j] == 0:
                 print(Fore.YELLOW+"[ ]", end=" ")
-            elif matrix[i][j] == 1:
-                if matrix[i][j] == matrix[row1][col1] == matrix[row2][col2] == matrix[row3][col3]:
+            elif matrix[i][j] == 1: # Player X
+                if is_winning_cell:
                     print(Style.BRIGHT+Fore.GREEN+" X ", end=" ")
                 else:
                     print(Fore.YELLOW+" X ", end=" ")
-            else:
-                if matrix[i][j] == matrix[row1][col1] == matrix[row2][col2] == matrix[row3][col3]:
+            else: # Player O (matrix[i][j] == 2)
+                if is_winning_cell:
                     print(Style.BRIGHT+Fore.GREEN+" O ", end=" ")
                 else:
                     print(Fore.YELLOW+" O ", end=" ")
@@ -178,39 +180,23 @@ def drawUI(matrix):
     print(Style.DIM+"   ____________\n")
 
 
-# This function is more on coloring the winning connecting symbols
-def wincheckMatrix(matrix):
-    for i in range(0,len(matrix)):
-        if matrix[i][0] == matrix[i][1] == matrix[i][2] != 0:
-            row1 = matrix.index(matrix[i])
-            row2 = matrix.index(matrix[i])
-            row3 = matrix.index(matrix[i])
-            col1 = matrix.index(matrix[0])
-            col2 = matrix.index(matrix[1])
-            col3 = matrix.index(matrix[2])
-        if matrix[0][i] == matrix[1][i] == matrix[2][i] != 0:
-            row1 = matrix.index(matrix[0])
-            row2 = matrix.index(matrix[1])
-            row3 = matrix.index(matrix[2])
-            col1 = matrix.index(matrix[i])
-            col2 = matrix.index(matrix[i])
-            col3 = matrix.index(matrix[i])
-        if i == 0:
-            if matrix[i+2][0] == matrix[i+1][1] == matrix[i][2] != 0:
-                row1 = matrix.index(matrix[i+2])
-                row2 = matrix.index(matrix[i+1])
-                row3 = matrix.index(matrix[i])
-                col1 = matrix.index(matrix[0])
-                col2 = matrix.index(matrix[1])
-                col3 = matrix.index(matrix[2])
-            if matrix[i][i] == matrix[i+1][i+1] == matrix[i+2][i+2] != 0:
-                row1 = matrix.index(matrix[i])
-                row2 = matrix.index(matrix[i+1])
-                row3 = matrix.index(matrix[i+2])
-                col1 = matrix.index(matrix[i])
-                col2 = matrix.index(matrix[i+1])
-                col3 = matrix.index(matrix[i+2])
-    return row1,row2,row3,col1,col2,col3
+# This function identifies the coordinates of the winning line.
+# It returns a list of three (row, col) tuples if a win is found, otherwise None.
+def get_winning_line(matrix):
+    # Check rows
+    for r in range(3):
+        if matrix[r][0] == matrix[r][1] == matrix[r][2] != 0:
+            return [(r, 0), (r, 1), (r, 2)]
+    # Check columns
+    for c in range(3):
+        if matrix[0][c] == matrix[1][c] == matrix[2][c] != 0:
+            return [(0, c), (1, c), (2, c)]
+    # Check diagonals
+    if matrix[0][0] == matrix[1][1] == matrix[2][2] != 0:
+        return [(0, 0), (1, 1), (2, 2)]
+    if matrix[0][2] == matrix[1][1] == matrix[2][0] != 0:
+        return [(0, 2), (1, 1), (2, 0)]
+    return None
 
 
 # Function for choosing which symbol to start with
